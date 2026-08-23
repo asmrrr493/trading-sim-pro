@@ -52,6 +52,13 @@ def انشاء_اكواد():
 
 # صفحة تفعيل الكود للعضو
 @برنامج.طريق('/redeem', methods=['POST'])
+# صفحة عرض اكواد اليوم للادمن
+@برنامج.طريق('/admin')
+def صفحة_الادمن():
+    اليوم = التاريخ.اليوم().التاريخ().strftime("%Y-%m-%d")
+    ج.ينفذ("SELECT code,pair,direction,profit,used FROM trade_codes WHERE date=?", (اليوم,))
+    اكواد_اليوم = ج.يجلب_الكل()
+    return render_template('admin.html', اكواد=اكواد_اليوم, تاريخ=اليوم)
 def تفعيل_كود():
     user_code = request.form['code']
     today = datetime.date.today().strftime("%Y-%m-%d")
