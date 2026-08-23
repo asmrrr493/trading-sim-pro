@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA TRADE | منصة التداول الاحترافية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--green:#2ea043;--red:#f85149;--blue:#1f6feb;--text:#c9d1d9;--muted:#8b949e;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text)}
+.login,.dashboard{display:none}
+.login.active,.dashboard.active{display:block}
+.glow{background:linear-gradient(90deg, var(--blue), var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0}
+.logo{font-size:22px;font-weight:800}
+.nav{display:flex;gap:20px}
+.nav button{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:8px}
+.nav button.active{color:var(--text);border-bottom:2px solid var(--blue)}
+.container{max-width:1400px;margin:20px auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
+input{background:#0d1117;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:8px;width:100%;margin:8px 0}
+.btn{padding:12px;border-radius:8px;border:none;font-weight:700;cursor:pointer;width:100%;font-family:'Cairo'}
+.btn-green{background:var(--green);color:#fff}
+.btn-red{background:var(--red);color:#fff}
+.btn-blue{background:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.price-card{display:flex;justify-content:space-between;align-items:center}
+.price-up{color:var(--green)}.price-down{color:var(--red)}
+.admin-panel{border:1px dashed var(--red)}
+.login-box{max-width:420px;margin:80px auto}
+.link{color:var(--blue);cursor:pointer;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+
+<div class="login active" id="loginPage">
+  <div class="login-box">
+    <div class="card">
+      <h1 class="glow" style="text-align:center;margin-bottom:20px">NEXORA TRADE</h1>
+      <div id="loginForm">
+        <h2>تسجيل الدخول</h2>
+        <input type="email" id="loginEmail" placeholder="البريد الالكتروني">
+        <input type="password" id="loginPassword" placeholder="كلمة السر">
+        <button class="btn btn-blue" onclick="login()">دخول</button>
+        <p class="link" onclick="showRegister()">انشاء حساب جديد</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:15px">الادمن: admin@nexora.com / 123456</p>
+      </div>
+      <div id="registerForm" style="display:none">
+        <h2>انشاء حساب</h2>
+        <input type="text" id="regName" placeholder="الاسم الكامل">
+        <input type="email" id="regEmail" placeholder="البريد الالكتروني">
+        <input type="password" id="regPassword" placeholder="كلمة السر">
+        <button class="btn btn-green" onclick="register()">تسجيل</button>
+        <p class="link" onclick="showLogin()">لديك حساب بالفعل؟</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard" id="dashboardPage">
+  <div class="header">
+    <div class="logo glow">NEXORA</div>
+    <div class="nav">
+      <button class="active" onclick="showTab('dashboard', this)">الرئيسية</button>
+      <button onclick="showTab('trade', this)">التداول</button>
+      <button onclick="showTab('wallet', this)">المحفظة</button>
+      <button id="adminBtn" onclick="showTab('admin', this)" style="display:none">الادمن</button>
+    </div>
+    <button class="btn btn-red" style="width:auto" onclick="logout()">خروج</button>
+  </div>
+  <div class="container">
+    <div id="dashboard" class="tab-content">
+      <h2>مرحبا <span id="userName"></span> 👋</h2>
+      <div class="grid">
+        <div class="card"><p style="color:var(--muted)">الرصيد</p><h2>$<span id="balance">0</span></h2></div>
+        <div class="card"><p style="color:var(--muted)">BTC</p><h2>$<span id="btcPriceNav">0</span></h2></div>
+        <div class="card"><p style="color:var(--muted)">المستخدمين</p><h2><span id="userCount">0</span></h2></div>
+      </div>
+      <div class="card"><canvas id="mainChart"></canvas></div>
+    </div>
+    <div id="trade" class="tab-content" style="display:none"><div class="card"><h2>الاسعار اللحظية</h2><div class="grid" id="pricesGrid"></div></div></div>
+    <div id="wallet" class="tab-content" style="display:none">
+      <div class="grid">
+        <div class="card"><h3>ايداع رصيد</h3><input type="number" id="depositAmount" placeholder="المبلغ بالدولار"><button class="btn btn-green" onclick="deposit()">ايداع</button></div>
+        <div class="card"><h3>سحب رصيد</h3><input type="number" id="withdrawAmount" placeholder="المبلغ بالدولار"><button class="btn btn-red" onclick="withdraw()">سحب</button></div>
+      </div>
+    </div>
+    <div id="admin" class="tab-content" style="display:none">
+      <div class="card admin-panel">
+        <h2>⚙️ لوحة تحكم الادمن</h2>
+        <input type="number" id="newBtcPrice" placeholder="سعر BTC الجديد">
+        <button class="btn btn-red" onclick="setPrice()">تحديث السعر</button>
+        <input type="email" id="editUserEmail" placeholder="ايميل المستخدم" style="margin-top:15px">
+        <input type="number" id="editUserBalance" placeholder="الرصيد الجديد">
+        <button class="btn btn-red" onclick="setUserBalance()">تعديل الرصيد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+let users = JSON.parse(localStorage.getItem('nexora_users')) || {};
+let market = JSON.parse(localStorage.getItem('nexora_market')) || {btc:67420, eth:3540, eur:1.085};
+if(!users['admin@nexora.com']){users['admin@nexora.com'] = {name: 'Admin', password: '19931990', balance: 999, isAdmin: true};saveUsers();}
+function saveUsers(){localStorage.setItem('nexora_users', JSON.stringify(users))}
+function saveMarket(){localStorage.setItem('nexora_market', JSON.stringify(market))}
+function showRegister(){document.getElementById('loginForm').style.display='none';document.getElementById('registerForm').style.display='block'}
+function showLogin(){document.getElementById('registerForm').style.display='none';document.getElementById('loginForm').style.display='block'}
+function register(){const name = document.getElementById('regName').value;const email = document.getElementById('regEmail').value;const pass = document.getElementById('regPassword').value;if(users[email]){alert('الايميل مستخدم'); return;}users[email] = {name, password: pass, balance: 1000, isAdmin: false};saveUsers();alert('تم انشاء الحساب');showLogin();}
+function login(){const email = document.getElementById('loginEmail').value;const pass = document.getElementById('loginPassword').value;if(users[email] && users[email].password == pass){currentUser = email;document.getElementById('loginPage').classList.remove('active');document.getElementById('dashboardPage').classList.add('active');document.getElementById('userName').innerText = users[email].name;if(users[email].isAdmin) document.getElementById('adminBtn').style.display='block';loadData();} else {alert('بيانات خطأ')}}
+function logout(){currentUser=null;document.getElementById('dashboardPage').classList.remove('active');document.getElementById('loginPage').classList.add('active');}
+function showTab(tab, btn){document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');document.getElementById(tab).style.display='block';document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function loadData(){document.getElementById('balance').innerText = users[currentUser].balance.toFixed(2);document.getElementById('btcPriceNav').innerText = market.btc;document.getElementById('userCount').innerText = Object.keys(users).length;updatePrices();drawChart();}
+function deposit(){let amt = parseFloat(document.getElementById('depositAmount').value);users[currentUser].balance += amt;saveUsers(); loadData();}
+function withdraw(){let amt = parseFloat(document.getElementById('withdrawAmount').value);if(amt <= users[currentUser].balance){users[currentUser].balance -= amt; saveUsers(); loadData();}else{alert('رصيدك لا يكفي')}}
+function setPrice(){market.btc = parseFloat(document.getElementById('newBtcPrice').value);saveMarket(); loadData(); alert('تم تحديث السعر')}
+function setUserBalance(){let email = document.getElementById('editUserEmail').value;let bal = parseFloat(document.getElementById('editUserBalance').value);if(users[email]){users[email].balance = bal; saveUsers(); alert('تم التعديل')}}
+function updatePrices(){document.getElementById('pricesGrid').innerHTML = `<div class="card price-card"><div><h3>BTC/USD</h3></div><div><h2>$${market.btc}</h2><p class="price-up">+1.24%</p></div></div><div class="card price-card"><div><h3>ETH/USD</h3></div><div><h2>$${market.eth}</h2><p class="price-up">+0.85%</p></div></div><div class="card price-card"><div><h3>EUR/USD</h3></div><div><h2>${market.eur}</h2><p class="price-down">-0.21%</p></div></div>`;}
+let chart;function drawChart(){const ctx = document.getElementById('mainChart');if(chart) chart.destroy();chart = new Chart(ctx, {type:'line',data:{labels:['السبت','الاحد','الاثنين','الثلاثاء','الاربعاء','الخميس','الجمعة'],datasets:[{label:'BTC',data:[65000,65500,66200,65800,67000,66800,market.btc],borderColor:'#2ea043',backgroundColor:'rgba(46,160,67,0.1)',tension:0.4,fill:true}]},options:{responsive:true,plugins:{legend:{display:false}}}});}
+</script>
+</body>
+</html>
