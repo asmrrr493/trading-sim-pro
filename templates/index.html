@@ -77,17 +77,15 @@ input,select{background:#0d1117;border:1px solid var(--border);color:var(--text)
     <button class="btn btn-red" style="width:auto" onclick="logout()">خروج</button>
   </div>
   <div class="container">
-    
     <div id="dashboard" class="tab-content">
       <h2>مرحبا <span id="userName"></span> 👋</h2>
       <div class="grid">
         <div class="card"><p style="color:var(--muted)">الرصيد</p><h2>$<span id="balance">0</span></h2></div>
-        <div class="card"><p style="color:var(--muted)">BTC</p><h2>$<span id="btcPriceNav">0</span> <span id="btcChange" class="price-up"></span></h2></div>
+        <div class="card"><p style="color:var(--muted)">BTC</p><h2>$<span id="btcPriceNav">0</span></h2></div>
         <div class="card"><p style="color:var(--muted)">عدد المستخدمين</p><h2><span id="userCount">0</span></h2></div>
       </div>
       <div class="card"><h3>رسم بياني BTC/USD</h3><canvas id="mainChart"></canvas></div>
     </div>
-
     <div id="trade" class="tab-content" style="display:none">
       <div class="card"><h2>الاسعار اللحظية</h2><div class="grid" id="pricesGrid"></div></div>
       <div class="card trade-box">
@@ -106,21 +104,18 @@ input,select{background:#0d1117;border:1px solid var(--border);color:var(--text)
         </div>
       </div>
     </div>
-
     <div id="wallet" class="tab-content" style="display:none">
       <div class="grid">
         <div class="card"><h3>ايداع رصيد</h3><input type="number" id="depositAmount" placeholder="المبلغ بالدولار"><button class="btn btn-green" onclick="deposit()">ايداع</button></div>
         <div class="card"><h3>سحب رصيد</h3><input type="number" id="withdrawAmount" placeholder="المبلغ بالدولار"><button class="btn btn-red" onclick="withdraw()">سحب</button></div>
       </div>
     </div>
-
     <div id="history" class="tab-content" style="display:none">
       <div class="card">
         <h2>سجل العمليات</h2>
         <table class="history-table"><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th></tr></thead><tbody id="historyTable"></tbody></table>
       </div>
     </div>
-
     <div id="admin" class="tab-content" style="display:none">
       <div class="card admin-panel">
         <h2>⚙️ لوحة تحكم الادمن</h2>
@@ -128,7 +123,6 @@ input,select{background:#0d1117;border:1px solid var(--border);color:var(--text)
         <input type="number" id="newBtcPrice" placeholder="سعر BTC الجديد">
         <input type="number" id="newEthPrice" placeholder="سعر ETH الجديد">
         <button class="btn btn-red" onclick="setPrice()">تحديث الاسعار</button>
-        
         <h4 style="margin-top:20px">التحكم في المستخدمين</h4>
         <input type="email" id="editUserEmail" placeholder="ايميل المستخدم">
         <input type="number" id="editUserBalance" placeholder="الرصيد الجديد">
@@ -136,7 +130,6 @@ input,select{background:#0d1117;border:1px solid var(--border);color:var(--text)
         <button class="btn btn-red" onclick="resetAll()">تصفير كل الحسابات</button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -146,32 +139,26 @@ let users = JSON.parse(localStorage.getItem('nexora_users')) || {};
 let market = JSON.parse(localStorage.getItem('nexora_market')) || {btc:67420, eth:3540, eur:1.085};
 let history = JSON.parse(localStorage.getItem('nexora_history')) || [];
 if(!users['admin@nexora.com']){users['admin@nexora.com'] = {name: 'Admin', password: '123456', balance: 999999, isAdmin: true};saveUsers();}
-
 function saveUsers(){localStorage.setItem('nexora_users', JSON.stringify(users))}
 function saveMarket(){localStorage.setItem('nexora_market', JSON.stringify(market))}
 function saveHistory(){localStorage.setItem('nexora_history', JSON.stringify(history))}
 function addHistory(type, amount){history.unshift({date: new Date().toLocaleString('ar-EG'), type, amount}); saveHistory();}
-
 function showRegister(){document.getElementById('loginForm').style.display='none';document.getElementById('registerForm').style.display='block'}
 function showLogin(){document.getElementById('registerForm').style.display='none';document.getElementById('loginForm').style.display='block'}
 function register(){const name = document.getElementById('regName').value;const email = document.getElementById('regEmail').value;const pass = document.getElementById('regPassword').value;if(!name||!email||!pass){alert('املأ كل الحقول');return;}if(users[email]){alert('الايميل مستخدم'); return;}users[email] = {name, password: pass, balance: 10000, isAdmin: false};saveUsers();addHistory('انشاء حساب', 10000); alert('تم انشاء الحساب برصيد 10000$');showLogin();}
 function login(){const email = document.getElementById('loginEmail').value;const pass = document.getElementById('loginPassword').value;if(users[email] && users[email].password == pass){currentUser = email;document.getElementById('loginPage').classList.remove('active');document.getElementById('dashboardPage').classList.add('active');document.getElementById('userName').innerText = users[email].name;if(users[email].isAdmin) document.getElementById('adminBtn').style.display='block';loadData();setInterval(simulatePrice, 5000);} else {alert('بيانات خطأ')}}
 function logout(){currentUser=null;document.getElementById('dashboardPage').classList.remove('active');document.getElementById('loginPage').classList.add('active');}
 function showTab(tab, btn){document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');document.getElementById(tab).style.display='block';document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active'); if(tab=='history') loadHistory();}
-
 function loadData(){document.getElementById('balance').innerText = users[currentUser].balance.toFixed(2);document.getElementById('btcPriceNav').innerText = market.btc.toFixed(2);document.getElementById('userCount').innerText = Object.keys(users).length;updatePrices();drawChart();}
 function deposit(){let amt = parseFloat(document.getElementById('depositAmount').value); if(amt>0){users[currentUser].balance += amt; saveUsers(); addHistory('ايداع', amt); loadData();}}
 function withdraw(){let amt = parseFloat(document.getElementById('withdrawAmount').value); if(amt <= users[currentUser].balance){users[currentUser].balance -= amt; saveUsers(); addHistory('سحب', -amt); loadData();}else{alert('رصيدك لا يكفي')}}
 function trade(type){let pair = document.getElementById('tradePair').value; let amt = parseFloat(document.getElementById('tradeAmount').value); if(amt>0 && amt<=users[currentUser].balance){let profit = type=='buy'? amt*0.02 : -amt*0.01; users[currentUser].balance += profit; saveUsers(); addHistory(`${type=='buy'?'شراء':'بيع'} ${pair}`, profit); alert(`تمت العملية. الربح/الخسارة: $${profit.toFixed(2)}`); loadData();}else{alert('مبلغ غير صحيح')}}
-
 function setPrice(){market.btc = parseFloat(document.getElementById('newBtcPrice').value) || market.btc; market.eth = parseFloat(document.getElementById('newEthPrice').value) || market.eth; saveMarket(); loadData(); alert('تم تحديث السعر')}
 function setUserBalance(){let email = document.getElementById('editUserEmail').value;let bal = parseFloat(document.getElementById('editUserBalance').value);if(users[email]){users[email].balance = bal; saveUsers(); alert('تم التعديل')}}
 function resetAll(){if(confirm('متأكد؟')){for(let u in users){if(!users[u].isAdmin) users[u].balance=10000} saveUsers(); alert('تم التصفير')}}
-
 function simulatePrice(){market.btc += (Math.random()-0.5)*200; market.eth += (Math.random()-0.5)*50; saveMarket(); if(currentUser) loadData();}
 function updatePrices(){document.getElementById('pricesGrid').innerHTML = `<div class="card price-card"><div><h3>BTC/USD</h3></div><div><h2>$${market.btc.toFixed(2)}</h2><p class="price-up">+1.24%</p></div></div><div class="card price-card"><div><h3>ETH/USD</h3></div><div><h2>$${market.eth.toFixed(2)}</h2><p class="price-up">+0.85%</p></div></div><div class="card price-card"><div><h3>EUR/USD</h3></div><div><h2>${market.eur.toFixed(3)}</h2><p class="price-down">-0.21%</p></div></div>`;}
 function loadHistory(){let rows=''; history.filter(h=>h.date).slice(0,10).forEach(h=>{rows+=`<tr><td>${h.date}</td><td>${h.type}</td><td style="color:${h.amount>0?'var(--green)':'var(--red)'}">${h.amount.toFixed(2)}$</td></tr>`}); document.getElementById('historyTable').innerHTML=rows;}
-
 let chart;function drawChart(){const ctx = document.getElementById('mainChart');if(chart) chart.destroy();chart = new Chart(ctx, {type:'line',data:{labels:['السبت','الاحد','الاثنين','الثلاثاء','الاربعاء','الخميس','الجمعة'],datasets:[{label:'BTC',data:[65000,65500,66200,65800,67000,66800,market.btc],borderColor:'#2ea043',backgroundColor:'rgba(46,160,67,0.1)',tension:0.4,fill:true}]},options:{responsive:true,plugins:{legend:{display:false}}}});
 }
 </script>
