@@ -2,102 +2,45 @@
 <html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة اكواد اليوم - Nexora Trade</title>
+    <title>لوحة اكواد اليوم - Nexora</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Cairo', 'Segoe UI', Arial;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            min-height: 100vh;
-        }
-       .container { max-width: 900px; margin: auto; }
-        h2 {
-            color: #00aaff;
-            margin-bottom: 20px;
-            font-size: 28px;
-            text-shadow: 0 0 10px #00aaff;
-        }
-       .btn {
-            display: inline-block;
-            background: linear-gradient(90deg, #00aaff, #0088cc);
-            color: #000;
-            padding: 14px 25px;
-            text-decoration: none;
-            border-radius: 10px;
-            margin: 15px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-       .btn:hover { transform: scale(1.05); box-shadow: 0 0 15px #00aaff; }
-        table {
-            width: 100%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background: #111;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,170,255,0.2);
-        }
-        th, td { border: 1px solid #333; padding: 14px; }
-        th { background: #222; color: #00aaff; font-size: 16px; }
-        td { font-size: 15px; }
-       .used { color: #ff4444; font-weight: bold; }
-       .ok { color: #00ff88; font-weight: bold; }
-       .code {
-            font-size: 20px;
-            letter-spacing: 2px;
-            color: #ffd700;
-            font-weight: bold;
-        }
-       .empty {
-            padding: 30px;
-            color: #888;
-            font-size: 18px;
-        }
-       .footer { margin-top: 30px; color: #666; font-size: 14px; }
+        body { font-family: Arial; background: #0a0a0a; color: #fff; text-align: center; padding: 20px; }
+        h2 { color: #00aaff; }
+       .btn { background: #00aaff; color: #000; padding: 12px 20px; text-decoration: none; border-radius: 8px; margin: 10px; font-weight: bold; display: inline-block; }
+        table { width: 95%; margin: 20px auto; border-collapse: collapse; background: #111; }
+        th, td { border: 1px solid #333; padding: 12px; }
+        th { background: #222; color: #00aaff; }
+     .used { color: #ff4444; font-weight: bold; }
+     .ok { color: #00ff88; font-weight: bold; }
+      .code { font-size: 18px; color: #ffd700; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>اكواد صفقات يوم {{ today }}</h2>
-
-        <a href="/admin/create_codes" class="btn">+ انشاء 3 اكواد جديدة لليوم</a>
-
-        <table>
-            <tr>
-                <th>#</th>
-                <th>الكود</th>
-                <th>الزوج</th>
-                <th>الاتجاه</th>
-                <th>الربح</th>
-                <th>الحالة</th>
-            </tr>
-            {% for i, code in enumerate(codes, 1) %}
-            <tr>
-                <td>{{ i }}</td>
-                <td class="code">{{ code[0] }}</td>
-                <td>{{ code[1] }}</td>
-                <td>{{ code[2] }}</td>
-                <td>{{ code[3] }}%</td>
-                <td class="{% if code[4]==1 %}used{% else %}ok{% endif %}">
-                    {% if code[4]==1 %} مستخدم {% else %} متاح {% endif %}
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="6" class="empty">مفيش اكواد لليوم<br>اضغط الزر فوق عشان تعمل 3 اكواد جديدة</td>
-            </tr>
-            {% endfor %}
-        </table>
-
-        <div class="footer">
-            Nexora Trade © 2026
-        </div>
-    </div>
+    <h2>اكواد صفقات يوم {{ today }}</h2>
+    <a href="/admin/create_codes" class="btn">+ انشاء 3 اكواد جديدة لليوم</a>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>الكود</th>
+            <th>الزوج</th>
+            <th>الاتجاه</th>
+            <th>الربح</th>
+            <th>الحالة</th>
+        </tr>
+        {% for code in codes %}
+        <tr>
+            <td>{{ loop.index }}</td> <!-- هنا التعديل -->
+            <td class="code">{{ code[0] }}</td>
+            <td>{{ code[1] }}</td>
+            <td>{{ code[2] }}</td>
+            <td>{{ code[3] }}%</td>
+            <td class="{% if code[4]==1 %}used{% else %}ok{% endif %}">
+                {% if code[4]==1 %} مستخدم {% else %} متاح {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">مفيش اكواد لليوم. اضغط الزر فوق</td></tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
