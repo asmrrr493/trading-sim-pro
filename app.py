@@ -4,8 +4,8 @@ import random
 import datetime
 import os
 
-برنامج = Flask(__name__)
-برنامج.secret_key = 'nexora_secret_key_123456'
+app = Flask(__name__)
+app.secret_key = 'nexora_secret_key_123456'
 
 # ربط قاعدة البيانات
 conn = sqlite3.connect('database.db', check_same_thread=False)
@@ -27,19 +27,16 @@ c.execute('''CREATE TABLE IF NOT EXISTS trade_codes
 conn.commit()
 
 # الصفحة الرئيسية
-@برنامج.طريق('/')
-def بيت():
+@app.route('/')
+def home():
     return render_template('index.html')
 
 # صفحة الادمن لانشاء 3 اكواد
-@برنامج.طريق('/admin/create_codes')
-def انشاء_اكواد():
+@app.route('/admin/create_codes')
+def create_codes():
     today = datetime.date.today().strftime("%Y-%m-%d")
-
-    # امسح اكواد امبارح
     c.execute("DELETE FROM trade_codes WHERE date!=?", (today,))
 
-    # اعمل 3 اكواد جديدة
     pairs = ["BTC/USDT", "ETH/USDT", "GOLD/USD", "EUR/USD"]
     for i in range(3):
         code = "NX-" + str(random.randint(10000, 99999))
@@ -50,16 +47,17 @@ def انشاء_اكواد():
     conn.commit()
     return f"تم انشاء 3 اكواد لليوم {today}"
 
-# صفحة تفعيل الكود للعضو
-@برنامج.طريق('/redeem', methods=['POST'])
 # صفحة عرض اكواد اليوم للادمن
-@برنامج.طريق('/admin')
-def صفحة_الادمن():
-    اليوم = التاريخ.اليوم().التاريخ().strftime("%Y-%m-%d")
-    ج.ينفذ("SELECT code,pair,direction,profit,used FROM trade_codes WHERE date=?", (اليوم,))
-    اكواد_اليوم = ج.يجلب_الكل()
-    return render_template('admin.html', اكواد=اكواد_اليوم, تاريخ=اليوم)
-def تفعيل_كود():
+@app.route('/admin')
+def admin_page():
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    c.execute("SELECT code,pair,direction,profit,used FROM trade_codes WHERE date=?", (today,))
+    codes = c.fetchall()
+    return render_template('admin.html', codes=codes, today=today)
+
+# صفحة تفعيل الكود للعضو
+@app.route('/redeem', methods=['POST'])
+def redeem_code():
     user_code = request.form['code']
     today = datetime.date.today().strftime("%Y-%m-%d")
 
@@ -67,12 +65,12 @@ def تفعيل_كود():
     data = c.fetchone()
 
     if data:
-        c.execute("UPDATE trade_codes SET used=1, used_by=? WHERE code=?", (session.get('user','ضيف'), user_code))
+        c.execute("UPDATE trade_codes SET used=1, used_by=? WHERE code=?", (session.get('user','guest'), user_code))
         conn.commit()
         return f"مبروك! تم تفعيل صفقة {data[2]} {data[3]} بربح {data[4]}%"
     else:
         return "الكود غلط او مستخدم او منتهي"
 
-if __name__ == '__اسم__' == '__رئيسي__':
-    ميناء = عدد صحيح(os.يحصل('ميناء', 5000))
-    برنامج.يجري(يستضيف='0.0.0.0', ميناء=ميناء)
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
