@@ -110,3 +110,13 @@ def admin_page():
     table{{width:90%;margin:20px auto;border-collapse:collapse}} th,td{{border:1px solid #333;padding:10px}}</style></head>
     <body><h2>اكواد يوم {today}</h2><a href="/admin/create_codes" class="btn">+ انشاء 3 اكواد</a>
     <table>
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
