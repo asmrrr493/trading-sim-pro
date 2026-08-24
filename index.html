@@ -8,294 +8,264 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Tahoma,sans-serif;
-    background:#070b14;
-    color:white;
+margin:0;
+font-family:Arial,Tahoma,sans-serif;
+background:#070b14;
+color:white;
 }
 
 header{
-    height:80px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 5%;
-    border-bottom:1px solid #1c2638;
+min-height:80px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 5%;
+border-bottom:1px solid #1c2638;
 }
 
 .logo{
-    font-size:34px;
-    font-weight:bold;
+font-size:34px;
+font-weight:bold;
 }
 
 .header-btn{
-    background:#064f45;
-    color:white;
-    border:0;
-    padding:15px 25px;
-    border-radius:35px;
-    font-size:18px;
-    cursor:pointer;
+background:#064f45;
+color:white;
+border:0;
+padding:15px 25px;
+border-radius:35px;
+font-size:18px;
+cursor:pointer;
 }
 
 .container{
-    width:92%;
-    max-width:1100px;
-    margin:40px auto;
+width:92%;
+max-width:1100px;
+margin:40px auto;
 }
 
 .card{
-    background:#111827;
-    border:1px solid #29354c;
-    border-radius:30px;
-    padding:35px;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
+background:#111827;
+border:1px solid #29354c;
+border-radius:30px;
+padding:35px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
 .auth-card{
-    max-width:600px;
-    margin:50px auto;
+max-width:600px;
+margin:50px auto;
 }
 
 h1{
-    font-size:45px;
-    margin:0 0 15px;
+font-size:45px;
+margin:0 0 15px;
 }
 
 h2{
-    font-size:30px;
+font-size:30px;
 }
 
 .subtitle{
-    color:#8b96aa;
-    font-size:19px;
-    margin-bottom:35px;
+color:#8b96aa;
+font-size:19px;
+margin-bottom:35px;
 }
 
 label{
-    display:block;
-    margin:20px 0 10px;
-    color:#cbd5e1;
-    font-size:17px;
+display:block;
+margin:20px 0 10px;
+color:#cbd5e1;
+font-size:17px;
 }
 
 input,select{
-    width:100%;
-    padding:18px;
-    background:#080e1a;
-    color:white;
-    border:1px solid #34415a;
-    border-radius:18px;
-    font-size:17px;
-    outline:none;
+width:100%;
+padding:18px;
+background:#080e1a;
+color:white;
+border:1px solid #34415a;
+border-radius:18px;
+font-size:17px;
+outline:none;
 }
 
 input:focus,select:focus{
-    border-color:#2563eb;
+border-color:#2563eb;
 }
 
 .btn{
-    width:100%;
-    padding:18px;
-    border:0;
-    border-radius:18px;
-    font-size:18px;
-    color:white;
-    cursor:pointer;
-    margin-top:18px;
-    font-weight:bold;
+width:100%;
+padding:18px;
+border:0;
+border-radius:18px;
+font-size:18px;
+color:white;
+cursor:pointer;
+margin-top:18px;
+font-weight:bold;
 }
 
-.btn-primary{
-    background:#2864ed;
-}
-
-.btn-success{
-    background:#07875f;
-}
-
-.btn-danger{
-    background:#b4233c;
-}
-
-.btn-secondary{
-    background:#334155;
-}
+.btn-primary{background:#2864ed}
+.btn-success{background:#07875f}
+.btn-danger{background:#b4233c}
+.btn-secondary{background:#334155}
 
 .small-btn{
-    width:auto;
-    padding:12px 20px;
-    margin:5px;
+width:auto;
+padding:12px 20px;
+margin:5px;
 }
 
 .hidden{
-    display:none !important;
+display:none !important;
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    margin:25px 0;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin:25px 0;
 }
 
 .stat{
-    background:#0b1220;
-    border:1px solid #29354c;
-    padding:25px;
-    border-radius:22px;
+background:#0b1220;
+border:1px solid #29354c;
+padding:25px;
+border-radius:22px;
 }
 
 .stat-title{
-    color:#8b96aa;
-    margin-bottom:10px;
+color:#8b96aa;
+margin-bottom:10px;
 }
 
 .stat-value{
-    font-size:30px;
-    font-weight:bold;
+font-size:30px;
+font-weight:bold;
 }
 
-.green{
-    color:#19d38a;
-}
-
-.blue{
-    color:#4f83ff;
-}
-
-.orange{
-    color:#f59e0b;
-}
+.green{color:#19d38a}
+.blue{color:#4f83ff}
+.orange{color:#f59e0b}
 
 .topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-    margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:25px;
 }
 
 .user-email{
-    color:#9ca3af;
+color:#9ca3af;
 }
 
-.tabs{
-    display:flex;
-    gap:10px;
-    margin-bottom:25px;
-    flex-wrap:wrap;
+.badge{
+display:inline-block;
+padding:7px 13px;
+border-radius:20px;
+background:#064e3b;
+color:#6ee7b7;
 }
 
-.tab{
-    border:0;
-    background:#1e293b;
-    color:white;
-    padding:14px 22px;
-    border-radius:15px;
-    cursor:pointer;
+.message{
+padding:15px;
+border-radius:15px;
+margin-top:15px;
+display:none;
 }
 
-.tab.active{
-    background:#2563eb;
+.message.success{
+display:block;
+background:#064e3b;
+color:#86efac;
+}
+
+.message.error{
+display:block;
+background:#450a0a;
+color:#fca5a5;
+}
+
+.market{
+background:#0b1220;
+border:1px solid #29354c;
+border-radius:22px;
+padding:25px;
+margin-top:20px;
+}
+
+.price{
+font-size:35px;
+font-weight:bold;
+margin:10px 0;
+}
+
+.loading{
+text-align:center;
+padding:30px;
+color:#94a3b8;
 }
 
 .admin-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
 }
 
 .admin-table th,
 .admin-table td{
-    padding:15px 10px;
-    border-bottom:1px solid #29354c;
-    text-align:right;
+padding:15px 10px;
+border-bottom:1px solid #29354c;
+text-align:right;
+white-space:nowrap;
 }
 
 .admin-table th{
-    color:#94a3b8;
+color:#94a3b8;
 }
 
 .admin-table input{
-    min-width:100px;
-    padding:10px;
-}
-
-.badge{
-    display:inline-block;
-    padding:7px 13px;
-    border-radius:20px;
-    background:#064e3b;
-    color:#6ee7b7;
-}
-
-.message{
-    padding:15px;
-    border-radius:15px;
-    margin-top:15px;
-    display:none;
-}
-
-.message.success{
-    display:block;
-    background:#064e3b;
-    color:#86efac;
-}
-
-.message.error{
-    display:block;
-    background:#450a0a;
-    color:#fca5a5;
-}
-
-.market{
-    background:#0b1220;
-    border:1px solid #29354c;
-    border-radius:22px;
-    padding:25px;
-    margin-top:20px;
-}
-
-.price{
-    font-size:35px;
-    font-weight:bold;
-    margin:10px 0;
-}
-
-.loading{
-    text-align:center;
-    padding:30px;
-    color:#94a3b8;
+min-width:100px;
+padding:10px;
 }
 
 @media(max-width:700px){
-    .stats{
-        grid-template-columns:1fr;
-    }
 
-    h1{
-        font-size:34px;
-    }
+.stats{
+grid-template-columns:1fr;
+}
 
-    .card{
-        padding:25px 18px;
-    }
+h1{
+font-size:34px;
+}
 
-    .admin-table{
-        font-size:13px;
-    }
+h2{
+font-size:26px;
+}
 
-    .admin-table th,
-    .admin-table td{
-        padding:10px 5px;
-    }
+.card{
+padding:25px 18px;
+}
+
+.admin-table{
+font-size:13px;
+}
+
+.admin-table th,
+.admin-table td{
+padding:10px 5px;
+}
+
+.logo{
+font-size:28px;
+}
+
 }
 </style>
 </head>
@@ -303,215 +273,389 @@ input:focus,select:focus{
 <body>
 
 <header>
-    <div class="logo">TradeLab</div>
 
-    <button class="header-btn" onclick="showAuth('signup')">
-        إنشاء حساب
-    </button>
+<div class="logo">
+TradeLab
+</div>
+
+<button
+id="headerAuthBtn"
+class="header-btn"
+onclick="showAuth('signup')">
+إنشاء حساب
+</button>
+
 </header>
 
 
-<!-- ================= تسجيل الدخول / التسجيل ================= -->
+<!-- تسجيل الدخول والتسجيل -->
 
 <section id="authSection" class="container">
 
-    <div class="card auth-card">
+<div class="card auth-card">
 
-        <h1 id="authTitle">تسجيل الدخول</h1>
+<h1 id="authTitle">
+تسجيل الدخول
+</h1>
 
-        <div class="subtitle" id="authSubtitle">
-            منصة تداول تعليمية
-        </div>
-
-        <div id="signupNameBox" class="hidden">
-            <label>الاسم</label>
-            <input id="signupName" type="text" placeholder="اكتب اسمك">
-        </div>
-
-        <label>البريد الإلكتروني</label>
-        <input id="email" type="email" placeholder="example@email.com">
-
-        <label>كلمة المرور</label>
-        <input id="password" type="password" placeholder="كلمة المرور">
-
-        <div id="confirmPasswordBox" class="hidden">
-            <label>تأكيد كلمة المرور</label>
-            <input id="confirmPassword" type="password" placeholder="أعد كتابة كلمة المرور">
-        </div>
-
-        <button id="mainAuthBtn" class="btn btn-primary" onclick="login()">
-            تسجيل الدخول
-        </button>
-
-        <button id="switchBtn" class="btn btn-success" onclick="showAuth('signup')">
-            إنشاء حساب جديد
-        </button>
-
-        <button id="forgotBtn" class="btn btn-secondary" onclick="resetPassword()">
-            نسيت كلمة المرور؟
-        </button>
-
-        <div id="authMessage" class="message"></div>
-
-    </div>
-
-</section>
+<div class="subtitle" id="authSubtitle">
+منصة تداول تعليمية
+</div>
 
 
-<!-- ================= لوحة الطالب ================= -->
+<div id="signupNameBox" class="hidden">
 
-<section id="studentSection" class="container hidden">
+<label>الاسم</label>
 
-    <div class="topbar">
-        <div>
-            <h2>لوحة الطالب</h2>
-            <div class="user-email" id="studentEmail"></div>
-        </div>
+<input
+id="signupName"
+type="text"
+placeholder="اكتب اسمك">
 
-        <button class="btn btn-danger small-btn" onclick="logout()">
-            تسجيل الخروج
-        </button>
-    </div>
+</div>
 
 
-    <div class="stats">
+<label>
+البريد الإلكتروني
+</label>
 
-        <div class="stat">
-            <div class="stat-title">الرصيد</div>
-            <div class="stat-value green" id="studentBalance">
-                0
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-title">المستوى</div>
-            <div class="stat-value blue" id="studentLevel">
-                1
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-title">عدد الصفقات</div>
-            <div class="stat-value orange" id="studentTrades">
-                0
-            </div>
-        </div>
-
-    </div>
+<input
+id="email"
+type="email"
+placeholder="example@email.com">
 
 
-    <div class="card">
+<label>
+كلمة المرور
+</label>
 
-        <h2>مرحباً <span id="studentName"></span> 👋</h2>
+<input
+id="password"
+type="password"
+placeholder="كلمة المرور">
 
-        <p class="subtitle">
-            تابع مستواك ورصيدك وتقدمك في منصة TradeLab.
-        </p>
 
-        <div class="market">
-            <div>BTC / USD</div>
-            <div class="price" id="btcPrice">
-                جاري التحميل...
-            </div>
-            <div class="green">
-                سعر تجريبي للتعلم
-            </div>
-        </div>
+<div id="confirmPasswordBox" class="hidden">
 
-    </div>
+<label>
+تأكيد كلمة المرور
+</label>
+
+<input
+id="confirmPassword"
+type="password"
+placeholder="أعد كتابة كلمة المرور">
+
+</div>
+
+
+<button
+id="mainAuthBtn"
+class="btn btn-primary"
+onclick="login()">
+
+تسجيل الدخول
+
+</button>
+
+
+<button
+id="switchBtn"
+class="btn btn-success"
+onclick="showAuth('signup')">
+
+إنشاء حساب جديد
+
+</button>
+
+
+<button
+id="forgotBtn"
+class="btn btn-secondary"
+onclick="resetPassword()">
+
+نسيت كلمة المرور؟
+
+</button>
+
+
+<div
+id="authMessage"
+class="message">
+</div>
+
+</div>
 
 </section>
 
 
-<!-- ================= لوحة الإدارة ================= -->
+<!-- لوحة الطالب -->
 
-<section id="adminSection" class="container hidden">
+<section
+id="studentSection"
+class="container hidden">
 
-    <div class="topbar">
+<div class="topbar">
 
-        <div>
-            <h2>لوحة تحكم المدير 👑</h2>
-            <div class="user-email" id="adminEmail"></div>
-        </div>
+<div>
 
-        <button class="btn btn-danger small-btn" onclick="logout()">
-            تسجيل الخروج
-        </button>
+<h2>
+لوحة الطالب
+</h2>
 
-    </div>
+<div
+class="user-email"
+id="studentEmail">
+</div>
 
-
-    <div class="stats">
-
-        <div class="stat">
-            <div class="stat-title">عدد الطلاب</div>
-            <div class="stat-value blue" id="totalStudents">
-                0
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-title">مجموع الأرصدة</div>
-            <div class="stat-value green" id="totalBalance">
-                0
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-title">الحالة</div>
-            <div class="stat-value">
-                <span class="badge">متصل</span>
-            </div>
-        </div>
-
-    </div>
+</div>
 
 
-    <div class="card">
+<button
+class="btn btn-danger small-btn"
+onclick="logout()">
 
-        <h2>إدارة الطلاب</h2>
+تسجيل الخروج
 
-        <p class="subtitle">
-            من هنا تستطيع تعديل رصيد ومستوى كل طالب.
-        </p>
+</button>
 
-        <button class="btn btn-primary small-btn" onclick="loadStudents()">
-            تحديث الطلاب
-        </button>
+</div>
 
-        <div style="overflow-x:auto">
 
-            <table class="admin-table">
+<div class="stats">
 
-                <thead>
-                    <tr>
-                        <th>الاسم</th>
-                        <th>البريد</th>
-                        <th>الرصيد</th>
-                        <th>المستوى</th>
-                        <th>الصفقات</th>
-                        <th>الحالة</th>
-                        <th>حفظ</th>
-                    </tr>
-                </thead>
+<div class="stat">
 
-                <tbody id="studentsTable">
-                </tbody>
+<div class="stat-title">
+الرصيد
+</div>
 
-            </table>
+<div
+class="stat-value green"
+id="studentBalance">
+0
+</div>
 
-        </div>
+</div>
 
-    </div>
+
+<div class="stat">
+
+<div class="stat-title">
+المستوى
+</div>
+
+<div
+class="stat-value blue"
+id="studentLevel">
+1
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+عدد الصفقات
+</div>
+
+<div
+class="stat-value orange"
+id="studentTrades">
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+مرحباً
+<span id="studentName"></span>
+👋
+</h2>
+
+<p class="subtitle">
+تابع مستواك ورصيدك وتقدمك في منصة TradeLab.
+</p>
+
+
+<div class="market">
+
+<div>
+BTC / USD
+</div>
+
+<div
+class="price"
+id="btcPrice">
+
+جاري التحميل...
+
+</div>
+
+<div class="green">
+سعر تجريبي للتعلم
+</div>
+
+</div>
+
+</div>
 
 </section>
 
+
+<!-- لوحة المدير -->
+
+<section
+id="adminSection"
+class="container hidden">
+
+<div class="topbar">
+
+<div>
+
+<h2>
+لوحة تحكم المدير 👑
+</h2>
+
+<div
+class="user-email"
+id="adminEmail">
+</div>
+
+</div>
+
+
+<button
+class="btn btn-danger small-btn"
+onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-title">
+عدد الطلاب
+</div>
+
+<div
+class="stat-value blue"
+id="totalStudents">
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+مجموع الأرصدة
+</div>
+
+<div
+class="stat-value green"
+id="totalBalance">
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+الحالة
+</div>
+
+<div class="stat-value">
+
+<span class="badge">
+متصل
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+إدارة الطلاب
+</h2>
+
+<p class="subtitle">
+من هنا تستطيع تعديل رصيد ومستوى كل طالب.
+</p>
+
+
+<button
+class="btn btn-primary small-btn"
+onclick="loadStudents()">
+
+تحديث الطلاب
+
+</button>
+
+
+<div
+id="adminMessage"
+class="message">
+</div>
+
+
+<div style="overflow-x:auto">
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>الاسم</th>
+<th>البريد</th>
+<th>الرصيد</th>
+<th>المستوى</th>
+<th>الصفقات</th>
+<th>الحالة</th>
+<th>حفظ</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="studentsTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
 
 <script>
 
-/* =====================================================
-   إعداد Supabase
-===================================================== */
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://aknqtrydokqiimleieco.supabase.co";
@@ -526,17 +670,17 @@ supabase.createClient(
 );
 
 
-/* =====================================================
-   متغيرات
-===================================================== */
+/* =========================
+   المتغيرات
+========================= */
 
 let currentUser = null;
 let currentProfile = null;
 
 
-/* =====================================================
-   عناصر الواجهة
-===================================================== */
+/* =========================
+   العناصر
+========================= */
 
 const authSection =
 document.getElementById("authSection");
@@ -548,9 +692,9 @@ const adminSection =
 document.getElementById("adminSection");
 
 
-/* =====================================================
-   إظهار تسجيل الدخول / التسجيل
-===================================================== */
+/* =========================
+   تبديل الدخول والتسجيل
+========================= */
 
 function showAuth(type){
 
@@ -564,7 +708,7 @@ function showAuth(type){
     const subtitle =
     document.getElementById("authSubtitle");
 
-    const signupNameBox =
+    const nameBox =
     document.getElementById("signupNameBox");
 
     const confirmBox =
@@ -582,12 +726,13 @@ function showAuth(type){
 
     if(type === "signup"){
 
-        title.textContent = "إنشاء حساب";
+        title.textContent =
+        "إنشاء حساب";
 
         subtitle.textContent =
         "أنشئ حسابك وابدأ التعلم";
 
-        signupNameBox.classList.remove("hidden");
+        nameBox.classList.remove("hidden");
 
         confirmBox.classList.remove("hidden");
 
@@ -601,7 +746,9 @@ function showAuth(type){
         "لديك حساب؟ تسجيل الدخول";
 
         switchBtn.onclick =
-        () => showAuth("login");
+        function(){
+            showAuth("login");
+        };
 
         forgotBtn.classList.add("hidden");
 
@@ -613,7 +760,7 @@ function showAuth(type){
         subtitle.textContent =
         "منصة تداول تعليمية";
 
-        signupNameBox.classList.add("hidden");
+        nameBox.classList.add("hidden");
 
         confirmBox.classList.add("hidden");
 
@@ -627,7 +774,9 @@ function showAuth(type){
         "إنشاء حساب جديد";
 
         switchBtn.onclick =
-        () => showAuth("signup");
+        function(){
+            showAuth("signup");
+        };
 
         forgotBtn.classList.remove("hidden");
 
@@ -637,58 +786,78 @@ function showAuth(type){
 }
 
 
-/* =====================================================
-   رسائل
-===================================================== */
+/* =========================
+   الرسائل
+========================= */
 
 function showMessage(text,type){
 
     const box =
     document.getElementById("authMessage");
 
-    box.textContent = text;
+    box.textContent =
+    text;
 
     box.className =
     "message " + type;
 }
+
 
 function clearMessage(){
 
     const box =
     document.getElementById("authMessage");
 
-    box.textContent = "";
+    box.textContent =
+    "";
 
     box.className =
     "message";
 }
 
 
-/* =====================================================
-   التسجيل
-===================================================== */
+function showAdminMessage(text,type){
+
+    const box =
+    document.getElementById("adminMessage");
+
+    box.textContent =
+    text;
+
+    box.className =
+    "message " + type;
+}
+
+
+/* =========================
+   إنشاء حساب
+========================= */
 
 async function signup(){
 
     clearMessage();
 
     const name =
-    document.getElementById("signupName").value.trim();
+    document.getElementById("signupName")
+    .value.trim();
 
     const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")
+    .value.trim();
 
     const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+    .value;
 
     const confirm =
-    document.getElementById("confirmPassword").value;
+    document.getElementById("confirmPassword")
+    .value;
 
 
     if(!name || !email || !password){
 
         showMessage(
-            "املأ جميع الحقول",
+            "املئي جميع الحقول",
             "error"
         );
 
@@ -745,81 +914,105 @@ async function signup(){
     }
 
 
-    if(data.user){
-
-        /*
-          نحاول إنشاء ملف الطالب.
-          إذا كان جدول profiles موجوداً سيتم إنشاء السجل.
-        */
-
-        const {error:profileError} =
-        await supabaseClient
-        .from("profiles")
-        .insert({
-
-            id:data.user.id,
-
-            email:email,
-
-            name:name,
-
-            balance:0,
-
-            level:1,
-
-            trades:0,
-
-            status:"active",
-
-            is_admin:false
-
-        });
-
-
-        if(profileError){
-
-            console.log(
-                "Profile insert:",
-                profileError.message
-            );
-        }
-
+    if(!data.user){
 
         showMessage(
-            "تم إنشاء الحساب بنجاح. يمكنك الآن تسجيل الدخول.",
+            "لم يتم إنشاء الحساب.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+      إنشاء ملف الطالب
+    */
+
+    const {error:profileError} =
+    await supabaseClient
+    .from("profiles")
+    .upsert({
+
+        id:data.user.id,
+
+        email:email,
+
+        name:name,
+
+        balance:0,
+
+        level:1,
+
+        trades:0,
+
+        status:"active",
+
+        is_admin:false
+
+    });
+
+
+    if(profileError){
+
+        console.log(
+            profileError.message
+        );
+
+        showMessage(
+            "تم إنشاء الحساب لكن تعذر إنشاء بيانات الطالب: " +
+            profileError.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!data.session){
+
+        showMessage(
+            "تم إنشاء الحساب. افتحي بريدك الإلكتروني وأكدي الحساب ثم سجلي الدخول.",
             "success"
         );
 
+    }else{
 
-        setTimeout(
-            () => showAuth("login"),
-            1200
+        showMessage(
+            "تم إنشاء الحساب بنجاح.",
+            "success"
         );
 
+        setTimeout(
+            loadUserProfile,
+            700
+        );
     }
 
 }
 
 
-/* =====================================================
+/* =========================
    تسجيل الدخول
-===================================================== */
+========================= */
 
 async function login(){
 
     clearMessage();
 
     const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")
+    .value.trim();
 
     const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+    .value;
 
 
     if(!email || !password){
 
         showMessage(
-            "أدخل البريد الإلكتروني وكلمة المرور",
+            "أدخلي البريد الإلكتروني وكلمة المرور",
             "error"
         );
 
@@ -828,7 +1021,8 @@ async function login(){
 
 
     const {data,error} =
-    await supabaseClient.auth.signInWithPassword({
+    await supabaseClient.auth
+    .signInWithPassword({
 
         email:email,
 
@@ -852,23 +1046,21 @@ async function login(){
     data.user;
 
     await loadUserProfile();
-
 }
 
 
-/* =====================================================
-   جلب بيانات المستخدم
-===================================================== */
+/* =========================
+   تحميل بيانات المستخدم
+========================= */
 
 async function loadUserProfile(){
 
     if(!currentUser){
-
         return;
     }
 
 
-    let {data,error} =
+    const {data,error} =
     await supabaseClient
     .from("profiles")
     .select("*")
@@ -876,8 +1068,21 @@ async function loadUserProfile(){
     .maybeSingle();
 
 
+    if(error){
+
+        showMessage(
+            "خطأ في تحميل بيانات الحساب: " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
     /*
-      إذا لم يوجد profile نحاول إنشاؤه.
+      إذا لم يوجد profile
+      ننشئه تلقائياً
     */
 
     if(!data){
@@ -913,32 +1118,30 @@ async function loadUserProfile(){
         .single();
 
 
-        if(!newError){
+        if(newError){
 
-            data =
-            newProfile;
+            showMessage(
+                "الحساب موجود ولكن تعذر إنشاء بيانات الطالب: " +
+                newError.message,
+                "error"
+            );
 
+            return;
         }
 
+
+        currentProfile =
+        newProfile;
+
+    }else{
+
+        currentProfile =
+        data;
+
     }
 
 
-    if(!data){
-
-        showMessage(
-            "تم تسجيل الدخول ولكن لم نستطع تحميل بيانات الحساب.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    currentProfile =
-    data;
-
-
-    if(data.is_admin === true){
+    if(currentProfile.is_admin === true){
 
         showAdmin();
 
@@ -951,9 +1154,9 @@ async function loadUserProfile(){
 }
 
 
-/* =====================================================
+/* =========================
    لوحة الطالب
-===================================================== */
+========================= */
 
 function showStudent(){
 
@@ -962,6 +1165,10 @@ function showStudent(){
     adminSection.classList.add("hidden");
 
     studentSection.classList.remove("hidden");
+
+
+    document.getElementById("headerAuthBtn")
+    .classList.add("hidden");
 
 
     document.getElementById("studentEmail")
@@ -976,7 +1183,9 @@ function showStudent(){
 
     document.getElementById("studentBalance")
     .textContent =
-    Number(currentProfile.balance || 0).toLocaleString();
+    Number(
+        currentProfile.balance || 0
+    ).toLocaleString();
 
 
     document.getElementById("studentLevel")
@@ -990,13 +1199,12 @@ function showStudent(){
 
 
     updatePrice();
-
 }
 
 
-/* =====================================================
+/* =========================
    لوحة المدير
-===================================================== */
+========================= */
 
 function showAdmin(){
 
@@ -1007,24 +1215,28 @@ function showAdmin(){
     adminSection.classList.remove("hidden");
 
 
+    document.getElementById("headerAuthBtn")
+    .classList.add("hidden");
+
+
     document.getElementById("adminEmail")
     .textContent =
     currentUser.email;
 
 
     loadStudents();
-
 }
 
 
-/* =====================================================
+/* =========================
    تحميل الطلاب
-===================================================== */
+========================= */
 
 async function loadStudents(){
 
     const tbody =
     document.getElementById("studentsTable");
+
 
     tbody.innerHTML =
     "<tr><td colspan='7' class='loading'>جاري تحميل الطلاب...</td></tr>";
@@ -1034,7 +1246,10 @@ async function loadStudents(){
     await supabaseClient
     .from("profiles")
     .select("*")
-    .order("created_at",{ascending:false});
+    .order(
+        "created_at",
+        {ascending:false}
+    );
 
 
     if(error){
@@ -1090,6 +1305,9 @@ async function loadStudents(){
     tbody.innerHTML =
     students.map(user => {
 
+        const id =
+        String(user.id);
+
         return `
 
         <tr>
@@ -1103,21 +1321,23 @@ async function loadStudents(){
             </td>
 
             <td>
+
                 <input
-                    id="balance-${user.id}"
+                    id="balance-${id}"
                     type="number"
                     step="0.01"
-                    value="${Number(user.balance || 0)}"
-                >
+                    value="${Number(user.balance || 0)}">
+
             </td>
 
             <td>
+
                 <input
-                    id="level-${user.id}"
+                    id="level-${id}"
                     type="number"
                     min="1"
-                    value="${Number(user.level || 1)}"
-                >
+                    value="${Number(user.level || 1)}">
+
             </td>
 
             <td>
@@ -1125,22 +1345,326 @@ async function loadStudents(){
             </td>
 
             <td>
+
                 <span class="badge">
                     ${escapeHtml(user.status || "active")}
                 </span>
+
             </td>
 
             <td>
 
                 <button
                     class="btn btn-success small-btn"
-                    onclick="updateStudent('${user.id}')"
-                >
+                    onclick="updateStudent('${id}')">
+
                     حفظ
+
                 </button>
 
             </td>
 
         </tr>
 
- 
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   تحديث الطالب
+========================= */
+
+async function updateStudent(id){
+
+    showAdminMessage(
+        "جاري الحفظ...",
+        "success"
+    );
+
+
+    const balanceInput =
+    document.getElementById(
+        "balance-" + id
+    );
+
+    const levelInput =
+    document.getElementById(
+        "level-" + id
+    );
+
+
+    if(!balanceInput || !levelInput){
+
+        showAdminMessage(
+            "تعذر العثور على بيانات الطالب.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const balance =
+    Number(balanceInput.value);
+
+    const level =
+    Number(levelInput.value);
+
+
+    if(!Number.isFinite(balance)){
+
+        showAdminMessage(
+            "الرصيد غير صحيح.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!Number.isInteger(level) || level < 1){
+
+        showAdminMessage(
+            "المستوى يجب أن يكون رقمًا صحيحًا يبدأ من 1.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const {error} =
+    await supabaseClient
+    .from("profiles")
+    .update({
+
+        balance:balance,
+
+        level:level
+
+    })
+    .eq("id",id);
+
+
+    if(error){
+
+        showAdminMessage(
+            "فشل الحفظ: " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    showAdminMessage(
+        "تم حفظ بيانات الطالب بنجاح ✅",
+        "success"
+    );
+
+
+    await loadStudents();
+}
+
+
+/* =========================
+   تسجيل الخروج
+========================= */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+
+    currentProfile = null;
+
+
+    studentSection.classList.add("hidden");
+
+    adminSection.classList.add("hidden");
+
+    authSection.classList.remove("hidden");
+
+
+    document.getElementById("headerAuthBtn")
+    .classList.remove("hidden");
+
+
+    showAuth("login");
+}
+
+
+/* =========================
+   نسيت كلمة المرور
+========================= */
+
+async function resetPassword(){
+
+    clearMessage();
+
+
+    const email =
+    document.getElementById("email")
+    .value
+    .trim();
+
+
+    if(!email){
+
+        showMessage(
+            "اكتبي البريد الإلكتروني أولاً.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const redirectUrl =
+    window.location.origin +
+    window.location.pathname;
+
+
+    const {error} =
+    await supabaseClient.auth
+    .resetPasswordForEmail(
+        email,
+        {
+            redirectTo:redirectUrl
+        }
+    );
+
+
+    if(error){
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    showMessage(
+        "تم إرسال رابط تغيير كلمة المرور إلى بريدك.",
+        "success"
+    );
+}
+
+
+/* =========================
+   السعر التجريبي
+========================= */
+
+function updatePrice(){
+
+    const price =
+    document.getElementById("btcPrice");
+
+
+    if(!price){
+        return;
+    }
+
+
+    const demoPrice =
+    104000 +
+    Math.floor(
+        Math.random() * 2000
+    );
+
+
+    price.textContent =
+    "$" +
+    demoPrice.toLocaleString();
+
+
+    setTimeout(
+        updatePrice,
+        10000
+    );
+}
+
+
+/* =========================
+   حماية النص
+========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   فحص الجلسة
+========================= */
+
+async function checkSession(){
+
+    const {data} =
+    await supabaseClient.auth
+    .getSession();
+
+
+    if(data.session){
+
+        currentUser =
+        data.session.user;
+
+        await loadUserProfile();
+
+    }else{
+
+        showAuth("login");
+
+    }
+
+}
+
+
+/* =========================
+   مراقبة تسجيل الدخول
+========================= */
+
+supabaseClient.auth
+.onAuthStateChange(
+    async (event,session) => {
+
+        if(
+            session &&
+            !currentUser
+        ){
+
+            currentUser =
+            session.user;
+
+            await loadUserProfile();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   تشغيل المنصة
+========================= */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
