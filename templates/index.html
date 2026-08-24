@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><title>NEXORA PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--green:#2ea043;--red:#f85149;--blue:#1f6feb;--text:#c9d1d9;}
+*{font-family:'Cairo';box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text)}
+.login,.dashboard{display:none}.active{display:block}
+.header{display:flex;justify-content:space-between;padding:15px 30px;background:var(--card);border-bottom:1px solid var(--border)}
+.glow{background:linear-gradient(90deg, var(--blue), var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;font-size:22px}
+.container{max-width:1200px;margin:20px auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
+input{background:#0d1117;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:8px;width:100%;margin:8px 0}
+.btn{padding:12px;border-radius:8px;border:none;font-weight:700;cursor:pointer;width:100%;background:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.code-box{border:2px dashed var(--blue);text-align:center}
+.code-box input{font-size:20px;text-align:center;font-weight:700}
+table{width:100%} th,td{padding:10px;border-bottom:1px solid var(--border);text-align:center}
+.admin-panel{border:2px solid var(--red)}
+</style>
+</head>
+<body>
+
+<div class="login active" id="loginPage">
+  <div style="max-width:400px;margin:80px auto" class="card">
+    <h1 class="glow" style="text-align:center">NEXORA PRO</h1>
+    <div id="loginForm">
+      <h2>تسجيل الدخول</h2>
+      <input id="loginEmail" placeholder="الايميل">
+      <input id="loginPass" type="password" placeholder="كلمة السر">
+      <button class="btn" onclick="login()">دخول</button>
+      <p onclick="toggleForm()" style="text-align:center;color:var(--blue);cursor:pointer;margin-top:10px">انشاء حساب</p>
+    </div>
+    <div id="regForm" style="display:none">
+      <h2>انشاء حساب</h2>
+      <input id="regName" placeholder="الاسم">
+      <input id="regEmail" placeholder="الايميل">
+      <input id="regPass" type="password" placeholder="كلمة السر">
+      <button class="btn" style="background:var(--green)" onclick="register()">تسجيل</button>
+      <p onclick="toggleForm()" style="text-align:center;color:var(--blue);cursor:pointer;margin-top:10px">لديك حساب؟</p>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard" id="dashPage">
+  <div class="header">
+    <div class="glow">NEXORA PRO</div>
+    <div>مرحبا <span id="userName"></span> | الرصيد: $<span id="balance">0</span></div>
+    <button class="btn" style="width:auto;background:var(--red)" onclick="logout()">خروج</button>
+  </div>
+  <div class="container">
+    <div class="grid">
+      <div class="card"><h3>BTC/USD</h3><h2 id="btc">$0</h2></div>
+      <div class="card"><h3>ETH/USD</h3><h2 id="eth">$0</h2></div>
+      <div class="card"><h3>EUR/USD</h3><h2 id="eur">0</h2></div>
+    </div>
+
+    <div class="card code-box">
+      <h2>🎯 خانة ادخال كود الصفقة</h2>
+      <input id="codeInput" placeholder="NX-12345">
+      <button class="btn" onclick="useCode()">تفعيل الكود</button>
+      <p id="codeResult"></p>
+    </div>
+
+    <div class="card"><h3>سجل العمليات</h3><table id="historyTable"></table></div>
+
+    <div class="card admin-panel" id="adminPanel" style="display:none">
+      <h2>⚙️ لوحة تحكم الادمن</h2>
+      <button class="btn" style="background:var(--red)" onclick="genCodes()">انشاء 3 اكواد جديدة</button>
+      <div id="codesList"></div>
+      <hr style="margin:20px 0">
+      <h4>تعديل رصيد مستخدم</h4>
+      <input id="editEmail" placeholder="ايميل المستخدم">
+      <input id="editBalance" placeholder="الرصيد الجديد">
+      <button class="btn" style="background:var(--blue)" onclick="setBal()">تعديل</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let userRole = 'user';
+async function api(url, data){let res = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); return res.json();}
+function toggleForm(){document.getElementById('loginForm').style.display = document.getElementById('loginForm').style.display=='none'?'block':'none'; document.getElementById('regForm').style.display = document.getElementById('regForm').style.display=='none'?'block':'none';}
+async function register(){let res = await api('/api/register',{name:regName.value,email:regEmail.value,pass:regPass.value}); alert(res.msg || 'تم التسجيل');}
+async function login(){let res = await api('/api/login',{email:loginEmail.value,pass:loginPass.value}); if(res.status=='ok'){userRole=res.role; document.getElementById('userName').innerText=res.name; if(res.role=='admin') document.getElementById('adminPanel').style.display='block'; document.getElementById('loginPage').classList.remove('active'); document.getElementById('dashPage').classList.add('active'); loadData(); setInterval(loadData, 5000);} else alert(res.msg);}
+async function loadData(){let res = await fetch('/api/data'); let d = await res.json(); if(d.status=='ok'){balance.innerText=d.user.balance.toFixed(2); btc.innerText='$'+d.market['BTC/USD'].toFixed(2); eth.innerText='$'+d.market['ETH/USD'].toFixed(2); eur.innerText=d.market['EUR/USD'].toFixed(3); let rows='<tr><th>التاريخ</th><th>العملية</th><th>الربح</th></tr>'; d.user.trades.slice(-5).reverse().forEach(t=>rows+=`<tr><td>${t.date}</td><td>${t.pair} ${t.type}</td><td style="color:${t.profit>0?'var(--green)':'var(--red)'}">${t.profit.toFixed(2)}$</td></tr>`); historyTable.innerHTML=rows;}}
+async function useCode(){let res = await api('/api/check_code',{code:codeInput.value}); codeResult.innerText=res.msg; codeResult.style.color=res.status=='ok'?'var(--green)':'var(--red)'; loadData();}
+async function genCodes(){let res = await api('/api/admin/create_codes',{}); let html=''; res.codes.forEach(c=>html+=`<p style="background:#222;padding:10px;border-radius:8px;margin:5px 0">${c.code} | ${c.pair} | ${c.signal} | ${c.profit}%</p>`); codesList.innerHTML=html;}
+async function setBal(){await api('/api/admin/set_balance',{email:editEmail.value,balance:editBalance.value}); alert('تم');}
+async function logout(){await fetch('/api/logout'); location.reload();}
+</script>
+</body>
+</html>
